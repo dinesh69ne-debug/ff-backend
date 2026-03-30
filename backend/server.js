@@ -225,13 +225,23 @@ app.delete("/clear-submissions", (req, res) => {
 
 // ================== FRONTEND SERVING (VERY IMPORTANT) ==================
 
+import path from "path";
+
 const __dirname = path.resolve();
 
-// Serve frontend build
+// Serve static frontend
 app.use(express.static(path.join(__dirname, "dist")));
 
-// React router fix
-app.get("/.*/", (req, res) => {
+// Specific routes (NO wildcard → no crash)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+app.get("/admin/:any", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
